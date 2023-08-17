@@ -1,0 +1,15 @@
+.workspace {
+  img {
+    height: calc(100vh - 60px);
+    object-fit: contain;
+    width: 100vw;
+  }
+
+  svg {
+    position: fixed;
+    height: calc(100vh - 60px);
+    width: 100vw;
+    opacity: 0.3;
+    z-index: 99999;
+  }
+}
