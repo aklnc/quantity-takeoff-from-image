@@ -1,4 +1,8 @@
 .workspace {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+
   img {
     height: calc(100vh - 60px);
     object-fit: contain;
@@ -11,5 +15,24 @@
     width: 100vw;
     opacity: 0.3;
     z-index: 99999;
+
+    .svg-line {
+      stroke: #ffff00;
+      stroke-width: 3;
+      z-index: 999999;
+      opacity: 1 !important;
+    }
+  }
+
+  .cursor-select {
+    cursor: default;
+  }
+
+  .cursor-pencil {
+    cursor: crosshair;
+  }
+
+  .cursor-erase {
+    cursor: url("../../../public/cursor-delete.png") 12 12, auto;
   }
 }
