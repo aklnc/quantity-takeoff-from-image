@@ -1,3 +1,5 @@
+import { SetMaterialsLS } from "./LocalStorage";
+
 export interface Material {
   materialId: string;
   material: string;
@@ -16,12 +18,11 @@ export const AddMaterial = (
     tempMaterialList.push(material);
 
     setMaterialList(tempMaterialList);
-    localStorage.setItem("materials", JSON.stringify(tempMaterialList))
+    SetMaterialsLS(tempMaterialList)
   } else {
     setMaterialList([material]);
-    localStorage.setItem("materials", JSON.stringify([material]))
+    SetMaterialsLS([material])
   }
-  console.log(material);
 
   return;
 };
@@ -30,14 +31,14 @@ export const DeleteMaterial = (
   index: number,
   materialList: Material[] | null,
   setMaterialList: React.Dispatch<React.SetStateAction<Material[] | null>>
-) => {
+): void => {
   if (materialList) {
     let tempMaterialList = [...materialList];
 
     tempMaterialList.splice(index, 1);
 
     setMaterialList(tempMaterialList);
-    localStorage.setItem("materials", JSON.stringify(tempMaterialList))
+    SetMaterialsLS(tempMaterialList)
   }
   return
 };

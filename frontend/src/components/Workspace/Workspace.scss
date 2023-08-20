@@ -5,7 +5,7 @@
 
   img {
     height: calc(100vh - 60px);
-    object-fit: contain;
+    object-fit: fill;
     width: 100vw;
   }
 
@@ -13,8 +13,11 @@
     position: fixed;
     height: calc(100vh - 60px);
     width: 100vw;
-    opacity: 0.3;
     z-index: 99999;
+
+    .svg-rect {
+      opacity: 0.3;
+    }
 
     .svg-line {
       stroke: #ffff00;
@@ -31,8 +34,12 @@
   .cursor-pencil {
     cursor: crosshair;
   }
-
+  
   .cursor-erase {
     cursor: url("../../../public/cursor-delete.png") 12 12, auto;
+  }
+
+  .cursor-ruler {
+    cursor: url("../../../public/cursor-ruler.png") 0 0, auto;
   }
 }

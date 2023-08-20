@@ -1,47 +1,32 @@
 import React from "react";
-import { Nav, Navbar, Container } from "react-bootstrap";
+import { Nav, Navbar, NavDropdown, Container } from "react-bootstrap";
+
+import { View } from "../../App";
+import { InfoxText } from "../InformativeText/InformativeText";
 
 import "./Navigation.scss";
 
+export type CursorMode = "select" | "pencil" | "erase" | "ruler";
+
 const Navigation: React.FC<{
-  view: "workspace" | "materialList" | "members";
+  view: View;
   setView: React.Dispatch<
-    React.SetStateAction<"workspace" | "materialList" | "members">
+    React.SetStateAction<View>
   >;
-  cursorMode: "select" | "pencil" | "erase";
-  setCursorMode: React.Dispatch<
-    React.SetStateAction<"select" | "pencil" | "erase">
-  >;
-  setInformativeText: React.Dispatch<
-    React.SetStateAction<
-      | "Select a member to see its properties."
-      | "Click to set first point."
-      | "Click to set second point"
-      | "Click on a member to delete it."
-      | null
-    >
-  >;
+  cursorMode: CursorMode;
+  setCursorMode: React.Dispatch<React.SetStateAction<CursorMode>>;
+  setInformativeText: React.Dispatch<React.SetStateAction<InfoxText>>;
 }> = (props: {
-  view: "workspace" | "materialList" | "members";
+  view: View;
   setView: React.Dispatch<
-    React.SetStateAction<"workspace" | "materialList" | "members">
+    React.SetStateAction<View>
   >;
-  cursorMode: "select" | "pencil" | "erase";
-  setCursorMode: React.Dispatch<
-    React.SetStateAction<"select" | "pencil" | "erase">
-  >;
-  setInformativeText: React.Dispatch<
-    React.SetStateAction<
-      | "Select a member to see its properties."
-      | "Click to set first point."
-      | "Click to set second point"
-      | "Click on a member to delete it."
-      | null
-    >
-  >;
+  cursorMode: CursorMode;
+  setCursorMode: React.Dispatch<React.SetStateAction<CursorMode>>;
+  setInformativeText: React.Dispatch<React.SetStateAction<InfoxText>>;
 }) => {
   return (
-    <Navbar className="bg-body-tertiary text-center">
+    <Navbar className="navigation bg-body-tertiary text-center">
       <Container>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Nav className="me-auto">
@@ -51,10 +36,12 @@ const Navigation: React.FC<{
                 className={props.cursorMode === "select" ? "text-success" : ""}
                 onClick={(e) => {
                   props.setCursorMode("select");
-                  props.setInformativeText('Select a member to see its properties.')
+                  props.setInformativeText(
+                    "Select a member to see its properties."
+                  );
                   setTimeout(() => {
-                    props.setInformativeText(null)
-                  }, 2500)
+                    props.setInformativeText(null);
+                  }, 2500);
                 }}
               >
                 <i className="fa-solid fa-arrow-pointer"></i>Select
@@ -63,10 +50,10 @@ const Navigation: React.FC<{
                 className={props.cursorMode === "pencil" ? "text-success" : ""}
                 onClick={() => {
                   props.setCursorMode("pencil");
-                  props.setInformativeText('Click to set first point.')
+                  props.setInformativeText("Click to set first point.");
                   setTimeout(() => {
-                    props.setInformativeText(null)
-                  }, 2500)
+                    props.setInformativeText(null);
+                  }, 2500);
                 }}
               >
                 <i className="fa-solid fa-pencil"></i> Pencil
@@ -75,42 +62,59 @@ const Navigation: React.FC<{
                 className={props.cursorMode === "erase" ? "text-success" : ""}
                 onClick={() => {
                   props.setCursorMode("erase");
-                  props.setInformativeText('Click on a member to delete it.')
+                  props.setInformativeText("Click on a member to delete it.");
                   setTimeout(() => {
-                    props.setInformativeText(null)
-                  }, 2500)
+                    props.setInformativeText(null);
+                  }, 2500);
                 }}
               >
                 <i className="fa-solid fa-eraser"></i> Eraser
+              </Nav.Link>
+              <Nav.Link
+                className={
+                  props.cursorMode === "ruler" ? "text-success" : ""
+                }
+                onClick={() => {
+                  props.setCursorMode("ruler");
+                  props.setInformativeText(
+                    "Draw the reference line to detect members' length."
+                  );
+                  setTimeout(() => {
+                    props.setInformativeText(null);
+                  }, 2500);
+                }}
+              >
+                <i className="fa-solid fa-ruler"></i> Ref. Length
               </Nav.Link>
             </React.Fragment>
           )}
         </Nav>
         <Nav>
-          <Nav.Link
-            className="mx-4"
-            onClick={() => {
-              props.setView("materialList");
-            }}
-          >
-            <i className="fa-solid fa-file-pen"></i> Material List
-          </Nav.Link>
-          <Nav.Link
-            className="mx-4"
-            onClick={() => {
-              props.setView("members");
-            }}
-          >
-            <i className="fa-solid fa-file-pen"></i> Members
-          </Nav.Link>
-          <Nav.Link
-            className="mx-4"
-            onClick={() => {
-              props.setView("workspace");
-            }}
-          >
-            <i className="fa-solid fa-file-pen"></i> Workspace
-          </Nav.Link>
+          <NavDropdown title="View">
+            <NavDropdown.Item
+              onClick={() => {
+                props.setView("materialList");
+              }}
+            >
+              {" "}
+              <i className="fa-solid fa-file-pen"></i> Material List
+            </NavDropdown.Item>
+
+            <NavDropdown.Item
+              onClick={() => {
+                props.setView("members");
+              }}
+            >
+              <i className="fa-solid fa-file-pen"></i> Members
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              onClick={() => {
+                props.setView("workspace");
+              }}
+            >
+              <i className="fa-solid fa-file-pen"></i> Workspace
+            </NavDropdown.Item>
+          </NavDropdown>
           <Nav.Link>
             <i className="fa-solid fa-floppy-disk"></i> Save
           </Nav.Link>
