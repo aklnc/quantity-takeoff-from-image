@@ -26,9 +26,26 @@ const RefLength: React.FC<{
   ) => {
     e.preventDefault();
 
-    FindLengths(props.currentLine, refLength, props.members, props.setMembers);
-    props.setShowRefLengthInput(false);
-    props.setView("members");
+    //@ts-ignore
+    let imgElement: HTMLImageElement | null =
+      document.getElementById("back-image");
+
+    if (imgElement) {
+      const imgHeight = imgElement.naturalHeight;
+      const imgWidth = imgElement.naturalWidth;
+
+      const ratioX: number = imgWidth / imgElement.getClientRects()[0].width;
+      const ratioY: number = imgHeight / imgElement.getClientRects()[0].height;
+
+      FindLengths(
+        props.currentLine,
+        refLength,
+        props.members,
+        props.setMembers
+      );
+      props.setShowRefLengthInput(false);
+      props.setView("members");
+    }
   };
 
   return (

@@ -61,6 +61,7 @@ const Workspace: React.FC<{
   const [linesOnDrawing, setLinesOnDrawing] = useState<JSX.Element | null>(
     null
   );
+  const [render, setRender] = useState(0)
 
   useEffect(() => {
     let tempLines = GetLinesLS();
@@ -73,6 +74,7 @@ const Workspace: React.FC<{
     if (tempMaterials) {
       setMaterials(tempMaterials);
     }
+
   }, []);
 
   useEffect(() => {
@@ -94,7 +96,7 @@ const Workspace: React.FC<{
     }
 
     setLinesOnDrawing(templinesOnDrawing);
-  }, [props.lines, useWindowSize()]);
+  }, [props.lines, useWindowSize(), render]);
 
   function useWindowSize() {
     const [size, setSize] = useState([0, 0]);
@@ -115,13 +117,13 @@ const Workspace: React.FC<{
     let tempCursorClickLocation = { ...cursorClickLocation };
 
     if (showSideBar) {
-      if (props.cursorMode === "select") {
+      if (props.cursorMode !== "pencil") {
         setShowSideBar(false);
       }
     } else {
-      const svgElement = document.getElementById("workspace-drawing");
-      let offsetX = e.pageX - svgElement!.getClientRects()[0].left;
-      let offsetY = e.pageY - svgElement!.getClientRects()[0].top;
+      let imgElement = document.getElementById("back-image");
+      let offsetX = e.pageX - imgElement!.getClientRects()[0].left;
+      let offsetY = e.pageY - imgElement!.getClientRects()[0].top;
 
       if (props.cursorMode === "pencil") {
         if (selectedMaterial) {
@@ -130,14 +132,14 @@ const Workspace: React.FC<{
             tempCursorClickLocation.first.y < 0
           ) {
             tempCursorClickLocation.first.x =
-              offsetX / svgElement!.getClientRects()[0].width;
+              offsetX / imgElement!.getClientRects()[0].width;
             tempCursorClickLocation.first.y =
-              offsetY / svgElement!.getClientRects()[0].height;
+              offsetY / imgElement!.getClientRects()[0].height;
           } else {
             tempCursorClickLocation.second.x =
-              offsetX / svgElement!.getClientRects()[0].width;
+              offsetX / imgElement!.getClientRects()[0].width;
             tempCursorClickLocation.second.y =
-              offsetY / svgElement!.getClientRects()[0].height;
+              offsetY / imgElement!.getClientRects()[0].height;
 
             if (props.lines) {
               props.setLines([...props.lines, tempCursorClickLocation]);
@@ -171,8 +173,8 @@ const Workspace: React.FC<{
         let selected = DetectMemberClick(
           tempCursorClickLocation.first,
           props.lines,
-          svgElement!.getClientRects()[0].width,
-          svgElement!.getClientRects()[0].height
+          imgElement!.getClientRects()[0].width,
+          imgElement!.getClientRects()[0].height
         );
 
         if (selected >= 0 && props.members) {
@@ -187,8 +189,8 @@ const Workspace: React.FC<{
         let selected = DetectMemberClick(
           tempCursorClickLocation.first,
           props.lines,
-          svgElement!.getClientRects()[0].width,
-          svgElement!.getClientRects()[0].height
+          imgElement!.getClientRects()[0].width,
+          imgElement!.getClientRects()[0].height
         );
 
         if (selected >= 0 && props.members) {
@@ -210,14 +212,14 @@ const Workspace: React.FC<{
           tempCursorClickLocation.first.y < 0
         ) {
           tempCursorClickLocation.first.x =
-            offsetX / svgElement!.getClientRects()[0].width;
+            offsetX / imgElement!.getClientRects()[0].width;
           tempCursorClickLocation.first.y =
-            offsetY / svgElement!.getClientRects()[0].height;
+            offsetY / imgElement!.getClientRects()[0].height;
         } else {
           tempCursorClickLocation.second.x =
-            offsetX / svgElement!.getClientRects()[0].width;
+            offsetX / imgElement!.getClientRects()[0].width;
           tempCursorClickLocation.second.y =
-            offsetY / svgElement!.getClientRects()[0].height;
+            offsetY / imgElement!.getClientRects()[0].height;
 
           setCurrentLine(tempCursorClickLocation);
           setShowRefLengthInput(true);
@@ -230,6 +232,11 @@ const Workspace: React.FC<{
       }
     }
   };
+
+  // For rendering lines first time
+  setTimeout(() => {
+    setRender(1)
+  }, 10)
 
   return (
     <React.Fragment>

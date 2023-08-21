@@ -140,6 +140,8 @@ export const FindLengths = (
       ((clickLine.second.x - clickLine.first.x) ** 2 +
         (clickLine.second.y - clickLine.first.y) ** 2) **
       0.5;
+      console.log(clickLine);
+      
   }
 
   if (members) {
@@ -147,18 +149,34 @@ export const FindLengths = (
 
     for (let i = 0; i < tempMembers.length; i++) {
       if (tempMembers[i].points) {
+        console.log(tempMembers[i].points);
+        
         let memberLength =
           ((tempMembers[i].points!.second.x - tempMembers[i].points!.first.x) **
             2 +
-            (tempMembers[i].points!.second.y - tempMembers[i].points!.first.y) **
+            (tempMembers[i].points!.second.y -
+              tempMembers[i].points!.first.y) **
               2) **
           0.5;
+          console.log(clickLineLength, memberLength);
+          
         if (refLength) {
-          tempMembers[i].length = parseFloat(((memberLength * refLength) / clickLineLength).toFixed(1));
-          tempMembers[i].pieceWeight = parseFloat((tempMembers[i].length! * tempMembers[i].unitWeight / 1000).toFixed(2));
-          tempMembers[i].totalWeight = parseFloat((tempMembers[i].pieceWeight! * tempMembers[i].quantity).toFixed(1));
+          tempMembers[i].length = parseFloat(
+            ((memberLength * refLength) / clickLineLength).toFixed(1)
+          );
+          tempMembers[i].pieceWeight = parseFloat(
+            (
+              (tempMembers[i].length! * tempMembers[i].unitWeight) /
+              1000
+            ).toFixed(2)
+          );
+          tempMembers[i].totalWeight = parseFloat(
+            (tempMembers[i].pieceWeight! * tempMembers[i].quantity).toFixed(1)
+          );
         }
       }
+      console.log('---');
+      
     }
 
     setMembers(tempMembers);

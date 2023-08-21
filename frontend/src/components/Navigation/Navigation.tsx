@@ -115,9 +115,6 @@ const Navigation: React.FC<{
               <i className="fa-solid fa-file-pen"></i> Workspace
             </NavDropdown.Item>
           </NavDropdown>
-          <Nav.Link>
-            <i className="fa-solid fa-floppy-disk"></i> Save
-          </Nav.Link>
         </Nav>
       </Container>
     </Navbar>
